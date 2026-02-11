@@ -72,6 +72,10 @@ export const useProjectStore = defineStore('project', {
       }
     },
 
+    setCurrentProject(project: Project | null) {
+      this.currentProject = project
+    },
+
     async createProject(projectData: {
       name: string
       description: string

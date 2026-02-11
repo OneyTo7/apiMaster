@@ -22,3 +22,92 @@ CREATE TABLE IF NOT EXISTS user (
 INSERT INTO user (username, password, email, nickname, role, status) 
 VALUES ('admin', '$2a$10$E5e9tJVlH539O8T2YQ2GouGHI8LfbZ9Q1G9yVtcjF5v09e5rXW9V6', 'admin@example.com', '管理员', 'admin', 1)
 ON DUPLICATE KEY UPDATE username = username;
+
+-- 创建团队表
+CREATE TABLE IF NOT EXISTS teams (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    creator_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status INT DEFAULT 1
+);
+
+-- 创建团队成员表
+CREATE TABLE IF NOT EXISTS team_members (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    team_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    role INT DEFAULT 3,
+    joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_team_user (team_id, user_id)
+);
+
+-- 创建项目表
+CREATE TABLE IF NOT EXISTS projects (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    team_id BIGINT NOT NULL,
+    creator_id BIGINT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status INT DEFAULT 1
+);
+
+-- 创建项目成员表
+CREATE TABLE IF NOT EXISTS project_members (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    project_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    role INT DEFAULT 3,
+    joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_project_user (project_id, user_id)
+);
+
+-- 创建API文件夹表
+CREATE TABLE IF NOT EXISTS api_folders (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    project_id BIGINT NOT NULL,
+    parent_id BIGINT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    sort INT DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- 创建API表
+CREATE TABLE IF NOT EXISTS apis (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    project_id BIGINT NOT NULL,
+    folder_id BIGINT,
+    name VARCHAR(100) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    method VARCHAR(10) NOT NULL,
+    description TEXT,
+    status INT DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- 创建API版本表
+CREATE TABLE IF NOT EXISTS api_versions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    api_id BIGINT NOT NULL,
+    version VARCHAR(20) NOT NULL,
+    content LONGTEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 创建测试用例表
+CREATE TABLE IF NOT EXISTS test_cases (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    api_id BIGINT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    request_config LONGTEXT,
+    expected_response LONGTEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

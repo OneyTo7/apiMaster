@@ -1,5 +1,6 @@
 com\apimaster\controller\TestController.class
 com\apimaster\entity\TestCase.class
+com\apimaster\repository\ApiFolderRepository.class
 com\apimaster\repository\TestCaseRepository.class
 com\apimaster\repository\ApiVersionRepository.class
 com\apimaster\service\ProjectService.class
@@ -18,10 +19,13 @@ com\apimaster\entity\Api.class
 com\apimaster\controller\ProjectController.class
 com\apimaster\controller\TeamController.class
 com\apimaster\config\RabbitMQConfig.class
+com\apimaster\controller\ApiFolderController.class
 com\apimaster\service\impl\RedisServiceImpl.class
 com\apimaster\service\impl\TeamServiceImpl.class
+com\apimaster\entity\ApiFolder.class
 com\apimaster\config\JacksonConfig.class
 com\apimaster\entity\Project.class
+com\apimaster\controller\ApiController.class
 com\apimaster\service\RabbitMQService.class
 com\apimaster\entity\ProjectMember.class
 com\apimaster\repository\TeamMemberRepository.class

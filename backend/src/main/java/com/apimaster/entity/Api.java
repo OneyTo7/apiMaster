@@ -18,6 +18,9 @@ public class Api {
     @Column(name = "project_id", nullable = false)
     private Long projectId;
 
+    @Column(name = "folder_id")
+    private Long folderId;
+
     @Column(nullable = false)
     private String name;
 
@@ -42,6 +45,10 @@ public class Api {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Project project;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "folder_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private ApiFolder folder;
 
     @OneToMany(mappedBy = "api", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ApiVersion> versions;

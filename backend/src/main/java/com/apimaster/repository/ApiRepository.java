@@ -16,4 +16,11 @@ public interface ApiRepository extends JpaRepository<Api, Long> {
     List<Api> findByMethod(String method);
 
     List<Api> findByPathContaining(String path);
+
+    List<Api> findByProjectIdOrderByCreatedAtDesc(Long projectId);
+
+    List<Api> findByFolderIdOrderByCreatedAtDesc(Long folderId);
+
+    List<Api> findByProjectIdAndNameContainingOrPathContainingOrderByCreatedAtDesc(
+            Long projectId, String name, String path);
 }

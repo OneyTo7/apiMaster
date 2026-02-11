@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import('../views/ProjectDetailView.vue')
     },
     {
+      path: '/api-manager',
+      name: 'api-manager',
+      component: () => import('../views/ApiManagerView.vue')
+    },
+    {
       path: '/api-design',
       name: 'api-design',
       component: () => import('../views/ApiDesignView.vue')
