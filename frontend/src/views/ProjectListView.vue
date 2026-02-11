@@ -77,9 +77,9 @@
           <span class="project-time">{{ formatDate(project.createdAt) }}</span>
         </div>
         <div class="project-actions">
-          <el-button type="text" class="action-btn" @click="navigateToDetail(project.id)">查看</el-button>
-          <el-button type="text" class="action-btn" @click="editProject(project)">编辑</el-button>
-          <el-button type="text" class="action-btn danger" @click="deleteProject(project.id)">删除</el-button>
+          <el-button link class="action-btn" @click="navigateToDetail(project.id)">查看</el-button>
+          <el-button link class="action-btn" @click="editProject(project)">编辑</el-button>
+          <el-button link class="action-btn danger" @click="deleteProject(project.id)">删除</el-button>
         </div>
       </el-card>
       

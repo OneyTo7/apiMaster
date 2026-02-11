@@ -86,12 +86,12 @@
           <span class="project-time">{{ formatDate(project.createdAt) }}</span>
         </div>
         <div class="project-actions">
-          <el-button type="text" class="action-btn" @click="navigateToApiDesign(project.id)">API设计</el-button>
-          <el-button type="text" class="action-btn" @click="navigateToApiTest(project.id)">API测试</el-button>
-          <el-button type="text" class="action-btn" @click="navigateToMock(project.id)">Mock服务</el-button>
-          <el-button type="text" class="action-btn" @click="navigateToDocs(project.id)">文档生成</el-button>
-          <el-button type="text" class="action-btn" @click="editProject(project)">编辑</el-button>
-          <el-button type="text" class="action-btn danger" @click="deleteProject(project.id)">删除</el-button>
+          <el-button link class="action-btn" @click="navigateToApiDesign(project.id)">API设计</el-button>
+          <el-button link class="action-btn" @click="navigateToApiTest(project.id)">API测试</el-button>
+          <el-button link class="action-btn" @click="navigateToMock(project.id)">Mock服务</el-button>
+          <el-button link class="action-btn" @click="navigateToDocs(project.id)">文档生成</el-button>
+          <el-button link class="action-btn" @click="editProject(project)">编辑</el-button>
+          <el-button link class="action-btn danger" @click="deleteProject(project.id)">删除</el-button>
         </div>
       </el-card>
       

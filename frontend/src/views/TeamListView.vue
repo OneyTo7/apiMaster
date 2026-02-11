@@ -77,9 +77,9 @@
           <span class="team-time">{{ formatDate(team.createdAt) }}</span>
         </div>
         <div class="team-actions">
-          <el-button type="text" class="action-btn" @click="navigateToProjects(team.id)">项目管理</el-button>
-          <el-button type="text" class="action-btn" @click="editTeam(team)">编辑</el-button>
-          <el-button type="text" class="action-btn danger" @click="deleteTeam(team.id)">删除</el-button>
+          <el-button link class="action-btn" @click="navigateToProjects(team.id)">项目管理</el-button>
+          <el-button link class="action-btn" @click="editTeam(team)">编辑</el-button>
+          <el-button link class="action-btn danger" @click="deleteTeam(team.id)">删除</el-button>
         </div>
       </el-card>
       
