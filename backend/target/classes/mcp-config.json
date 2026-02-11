@@ -1,0 +1,48 @@
+{
+  "services": {
+    "redis": {
+      "type": "redis",
+      "host": "localhost",
+      "port": 6379,
+      "password": "api_master_redis",
+      "timeout": 5000
+    },
+    "rabbitmq": {
+      "type": "rabbitmq",
+      "host": "localhost",
+      "port": 5672,
+      "username": "api_master",
+      "password": "api_master_rabbit",
+      "virtualHost": "/api_master"
+    },
+    "minio": {
+      "type": "minio",
+      "endpoint": "http://localhost:9002",
+      "accessKey": "api_master",
+      "secretKey": "api_master_minio",
+      "bucketName": "api-master"
+    },
+    "mysql": {
+      "type": "mysql",
+      "host": "localhost",
+      "port": 3306,
+      "username": "api_master",
+      "password": "api_master_password",
+      "database": "api_master"
+    }
+  },
+  "endpoints": {
+    "health": "/api/test/health",
+    "redis": {
+      "set": "/api/test/redis/set",
+      "get": "/api/test/redis/get"
+    },
+    "rabbitmq": {
+      "send": "/api/test/rabbitmq/send"
+    },
+    "minio": {
+      "upload": "/api/test/minio/upload",
+      "list": "/api/test/minio/list"
+    }
+  }
+}

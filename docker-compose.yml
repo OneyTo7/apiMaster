@@ -38,12 +38,12 @@ services:
       - "6379:6379"
     volumes:
       - d:/DockerData/redis:/data
-    command: redis-server --requirepass api_master_redis
+    command: redis-server
     networks:
       - api-master-network
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -a api_master_redis ping | grep PONG"]
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       interval: 30s
       timeout: 10s
       retries: 3

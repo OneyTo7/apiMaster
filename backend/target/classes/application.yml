@@ -18,7 +18,19 @@ spring:
   redis:
     host: localhost
     port: 6379
-    password: api_master_redis
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: api_master
+    password: api_master_rabbit
+    virtual-host: /api_master
+
+# MinIO配置
+minio:
+  endpoint: http://localhost:9002
+  accessKey: api_master
+  secretKey: api_master_minio
+  bucketName: api-master
 
 server:
   port: 8080
