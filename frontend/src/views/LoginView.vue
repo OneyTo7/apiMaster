@@ -74,9 +74,12 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user'
 import { User, Lock, Message, Avatar, Check } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
+const userStore = useUserStore()
 const activeTab = ref('login')
 const loading = ref(false)
 const registerLoading = ref(false)
@@ -138,6 +141,26 @@ const handleLogin = async () => {
     setTimeout(() => {
       loading.value = false
       console.log('登录成功:', loginForm)
+      
+      // 模拟用户数据
+      const mockUser = {
+        id: 1,
+        username: loginForm.username,
+        nickname: loginForm.username,
+        email: `${loginForm.username}@example.com`,
+        role: 'admin'
+      }
+      
+      // 模拟token
+      const mockToken = 'mock-jwt-token-' + Date.now()
+      
+      // 更新用户状态
+      userStore.login(mockUser, mockToken)
+      
+      // 显示成功消息
+      ElMessage.success('登录成功')
+      
+      // 跳转到首页
       router.push('/')
     }, 1000)
   } catch (error) {
@@ -156,6 +179,11 @@ const handleRegister = async () => {
     setTimeout(() => {
       registerLoading.value = false
       console.log('注册成功:', registerForm)
+      
+      // 显示成功消息
+      ElMessage.success('注册成功')
+      
+      // 切换到登录标签
       activeTab.value = 'login'
       loginForm.username = registerForm.username
     }, 1000)

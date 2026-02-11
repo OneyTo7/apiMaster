@@ -8,17 +8,23 @@
             <router-link to="/">首页</router-link>
           </el-menu-item>
           <el-menu-item index="2">
-            <router-link to="/api-design">API设计</router-link>
+            <router-link to="/teams">团队管理</router-link>
           </el-menu-item>
-          <el-menu-item index="3">
-            <router-link to="/api-test">API测试</router-link>
-          </el-menu-item>
-          <el-menu-item index="4" :class="{ active: true }">
-            <router-link to="/mock">Mock服务</router-link>
-          </el-menu-item>
-          <el-menu-item index="5">
-            <router-link to="/docs">文档生成</router-link>
-          </el-menu-item>
+          <el-sub-menu index="3" :class="{ active: true }">
+            <template #title>API管理</template>
+            <el-menu-item index="3-1">
+              <router-link to="/api-design">API设计</router-link>
+            </el-menu-item>
+            <el-menu-item index="3-2">
+              <router-link to="/api-test">API测试</router-link>
+            </el-menu-item>
+            <el-menu-item index="3-3" :class="{ active: true }">
+              <router-link to="/mock">Mock服务</router-link>
+            </el-menu-item>
+            <el-menu-item index="3-4">
+              <router-link to="/docs">文档生成</router-link>
+            </el-menu-item>
+          </el-sub-menu>
         </el-menu>
         <div class="user">
           <el-button type="primary">
@@ -133,7 +139,7 @@
 import { ref, reactive, computed } from 'vue'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 
-const activeIndex = ref('4')
+const activeIndex = ref('3-3')
 const currentMock = ref<any>(null)
 
 const mockBaseUrl = 'http://localhost:8080/api/mock'

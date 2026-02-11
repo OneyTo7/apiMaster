@@ -8,22 +8,43 @@
             <router-link to="/">首页</router-link>
           </el-menu-item>
           <el-menu-item index="2">
-            <router-link to="/api-design">API设计</router-link>
+            <router-link to="/teams">团队管理</router-link>
           </el-menu-item>
-          <el-menu-item index="3" :class="{ active: true }">
-            <router-link to="/api-test">API测试</router-link>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <router-link to="/mock">Mock服务</router-link>
-          </el-menu-item>
-          <el-menu-item index="5">
-            <router-link to="/docs">文档生成</router-link>
-          </el-menu-item>
+          <el-sub-menu index="3" :class="{ active: true }">
+            <template #title>API管理</template>
+            <el-menu-item index="3-1">
+              <router-link to="/api-design">API设计</router-link>
+            </el-menu-item>
+            <el-menu-item index="3-2" :class="{ active: true }">
+              <router-link to="/api-test">API测试</router-link>
+            </el-menu-item>
+            <el-menu-item index="3-3">
+              <router-link to="/mock">Mock服务</router-link>
+            </el-menu-item>
+            <el-menu-item index="3-4">
+              <router-link to="/docs">文档生成</router-link>
+            </el-menu-item>
+          </el-sub-menu>
         </el-menu>
         <div class="user">
-          <el-button type="primary">
-            <router-link to="/login">登录</router-link>
-          </el-button>
+          <template v-if="userStore.getIsLoggedIn">
+            <el-dropdown>
+              <span class="user-info">
+                {{ userStore.getUser?.nickname }} <el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>个人中心</el-dropdown-item>
+                  <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </template>
+          <template v-else>
+            <el-button type="primary">
+              <router-link to="/login">登录</router-link>
+            </el-button>
+          </template>
         </div>
       </el-header>
       <el-main class="main">
@@ -46,7 +67,7 @@
               </el-select>
               <el-input v-model="testForm.url" placeholder="请求URL" style="flex: 1; margin-right: 10px;" />
               <el-button type="primary" @click="sendRequest">
-                <el-icon><Send /></el-icon> 发送
+                <el-icon><Upload /></el-icon> 发送
               </el-button>
             </div>
             
@@ -76,7 +97,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <el-button type="primary" size="small" class="add-param-btn">
+                <el-button type="primary" size="small" class="add-param-btn" @click="addParam">
                   <el-icon><Plus /></el-icon> 添加参数
                 </el-button>
               </el-tab-pane>
@@ -101,7 +122,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <el-button type="primary" size="small" class="add-header-btn">
+                <el-button type="primary" size="small" class="add-header-btn" @click="addHeader">
                   <el-icon><Plus /></el-icon> 添加请求头
                 </el-button>
               </el-tab-pane>
@@ -112,13 +133,13 @@
                   <el-option label="Form Data" value="form-data" />
                   <el-option label="Text" value="text" />
                 </el-select>
-                <el-input type="textarea" v-model="testForm.body" placeholder="请输入请求体内容" rows="6" />
+                <el-input type="textarea" v-model="testForm.body" placeholder="请输入请求体内容" :rows="6" />
               </el-tab-pane>
             </el-tabs>
             
             <div class="response-section">
               <h3>响应结果</h3>
-              <el-input type="textarea" v-model="testForm.response" placeholder="响应结果将显示在这里" rows="8" readonly />
+              <el-input type="textarea" v-model="testForm.response" placeholder="响应结果将显示在这里" :rows="8" readonly />
               <div class="response-info">
                 <span>状态码: {{ testForm.statusCode }}</span>
                 <span>响应时间: {{ testForm.responseTime }}ms</span>
@@ -134,10 +155,16 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { Check, Send, Delete, Plus } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
+import { Check, Upload, Delete, Plus, ArrowDown } from '@element-plus/icons-vue'
+import { useUserStore } from '../stores/user'
+import { onMounted } from 'vue'
+import { ElMessage } from 'element-plus'
 
-const activeIndex = ref('3')
+const router = useRouter()
+const activeIndex = ref('3-2')
 const activeTab = ref('params')
+const userStore = useUserStore()
 
 const testForm = reactive({
   method: 'GET',
@@ -163,6 +190,11 @@ const testForm = reactive({
   responseSize: ''
 })
 
+// 检查登录状态
+onMounted(() => {
+  userStore.checkLogin()
+})
+
 const sendRequest = () => {
   // 模拟发送请求
   setTimeout(() => {
@@ -179,6 +211,27 @@ const removeParam = (index: number) => {
 
 const removeHeader = (index: number) => {
   testForm.headers.splice(index, 1)
+}
+
+const addParam = () => {
+  testForm.params.push({
+    name: '',
+    value: '',
+    description: ''
+  })
+}
+
+const addHeader = () => {
+  testForm.headers.push({
+    name: '',
+    value: ''
+  })
+}
+
+const handleLogout = () => {
+  userStore.logout()
+  ElMessage.success('退出登录成功')
+  router.push('/')
 }
 </script>
 
@@ -218,6 +271,19 @@ const removeHeader = (index: number) => {
 
 .user {
   margin-left: auto;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.user-info:hover {
+  background-color: #f5f7fa;
 }
 
 .main {

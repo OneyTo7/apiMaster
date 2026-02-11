@@ -9,6 +9,26 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue')
     },
     {
+      path: '/teams',
+      name: 'teams',
+      component: () => import('../views/TeamListView.vue')
+    },
+    {
+      path: '/teams/:teamId/projects',
+      name: 'team-projects',
+      component: () => import('../views/TeamProjectListView.vue')
+    },
+    {
+      path: '/projects',
+      name: 'projects',
+      component: () => import('../views/ProjectListView.vue')
+    },
+    {
+      path: '/projects/:id',
+      name: 'project-detail',
+      component: () => import('../views/ProjectDetailView.vue')
+    },
+    {
       path: '/api-design',
       name: 'api-design',
       component: () => import('../views/ApiDesignView.vue')
