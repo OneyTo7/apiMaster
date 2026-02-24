@@ -80,8 +80,8 @@ services:
       MINIO_ROOT_PASSWORD: api_master_minio
       TZ: Asia/Shanghai
     ports:
-      - "9002:9000"  # 避免与 Portainer 9000 冲突
-      - "9001:9001"
+      - "9002:9000"  # API端口（避开Portainer原9000）
+      - "9001:9001"  # 控制台端口
     volumes:
       - d:/DockerData/minio:/data
     command: server /data --console-address ":9001"
@@ -90,7 +90,7 @@ services:
     restart: always
     # WSL2 下 minio 镜像里不一定有 curl，healthcheck 先不加，确保稳定启动
 
-  # phpMyAdmin（MySQL管理工具，可选）
+  # phpMyAdmin（MySQL管理工具）
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: api-master-phpmyadmin
@@ -101,31 +101,31 @@ services:
       PMA_PASSWORD: api_master_password
       TZ: Asia/Shanghai
     ports:
-       - "8082:80"
+      - "49155:80"
     networks:
       - api-master-network
     restart: always
     depends_on:
       - mysql
 
-  # RedisInsight（Redis管理工具，可选）
+  # RedisInsight（Redis管理工具）
   redisinsight:
     image: redislabs/redisinsight:latest
     container_name: api-master-redisinsight
     ports:
-      - "8081:8001"
+      - "49156:8001"
     networks:
       - api-master-network
     restart: always
     depends_on:
       - redis
 
-  # Portainer（容器管理工具，可选）
+  # Portainer（容器管理工具）
   portainer:
     image: portainer/portainer-ce:latest
     container_name: api-master-portainer
     ports:
-      - "9000:9000"
+      - "49157:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - d:/DockerData/portainer:/data
